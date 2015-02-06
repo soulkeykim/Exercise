@@ -66,6 +66,9 @@ public class ECMainActivity extends ECActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            loadData();
+
             return true;
         }
 
@@ -73,6 +76,7 @@ public class ECMainActivity extends ECActivity {
     }
 
     private void loadData() {
+        recyclerAdapter.updateList(new ArrayList<ECRow>());
         new ECGetTask().execute();
     }
 
