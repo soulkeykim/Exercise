@@ -1,5 +1,6 @@
 package com.soulkey.androidexercise.Adapter;
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.soulkey.androidexercise.Common.ECGlobal;
 import com.soulkey.androidexercise.R;
 import com.soulkey.androidexercise.Struct.ECRow;
 
@@ -16,9 +23,19 @@ public class ECRecyclerAdapter extends RecyclerView.Adapter<ECRecyclerAdapter.Vi
     private List<ECRow> items;
     private int itemLayout;
 
+    private ImageLoader imageLoader;
+    private DisplayImageOptions defaultOptions;
+
     public ECRecyclerAdapter(List<ECRow> items, int itemLayout) {
         this.items = items;
         this.itemLayout = itemLayout;
+
+        defaultOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(ImageLoaderConfiguration.createDefault(ECGlobal.getCurrentActivity()));
     }
 
     @Override
@@ -33,6 +50,34 @@ public class ECRecyclerAdapter extends RecyclerView.Adapter<ECRecyclerAdapter.Vi
 
         holder.title.setText(item.title);
         holder.description.setText(item.description);
+        if(item.imageHref == null || item.imageHref.equals("null")) {
+            holder.image.setVisibility(View.GONE);
+        }
+        else {
+            holder.image.setVisibility(View.VISIBLE);
+            if(item.conError)
+                holder.image.setImageResource(R.drawable.notification_error);
+            else {
+                holder.image.setImageResource(R.drawable.ic_launcher);
+                final ImageView imageView = holder.image;
+                imageLoader.displayImage(item.imageHref, holder.image, defaultOptions, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        imageView.setImageResource(R.drawable.notification_error);
+                        item.conError = true;
+                        item.save();
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    }
+                });
+            }
+        }
     }
 
     @Override

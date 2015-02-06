@@ -20,6 +20,9 @@ public class ECRow extends Model implements Serializable {
     @Column(name = "imageHref")
     public String imageHref;
 
+    @Column(name = "conError")
+    public boolean conError;
+
     public ECRow()
     {
     }
