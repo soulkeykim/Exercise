@@ -21,8 +21,13 @@ public class ECDefine {
     public static final String TOKEN_TITLE= "title";
     public static final String TOKEN_IMAGEHREF = "imageHref";
 
-
     public static final String MSG_RECEIVING_DATA = "Receiving Data...";
+    public static final String MSG_CON_FAIL = "Connection Failed";
+    public static final String MSG_TRY_AGAIN = "Please check your network connection and try again";
+    public static final String MSG_OK = "OK";
+
+    public static final String RESULT_FAILED = "FAILED";
+    public static final String RESULT_SUCCESS = "SUCCESS";
 
     public static final String TAG = "AndroidExcercise";
 
