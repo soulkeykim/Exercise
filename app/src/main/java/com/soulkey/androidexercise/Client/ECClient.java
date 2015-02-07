@@ -7,10 +7,9 @@ import com.squareup.okhttp.OkHttpClient;
  */
 public class ECClient extends OkHttpClient {
 
-    static private ECClient instance;
+    private static ECClient instance;
 
-    static public ECClient getInstance()
-    {
+    public static ECClient getInstance() {
         if(instance == null)
             instance = new ECClient();
 

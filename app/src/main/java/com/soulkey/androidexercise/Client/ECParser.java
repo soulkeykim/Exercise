@@ -15,9 +15,9 @@ import org.json.JSONObject;
  * Created by Soulkey Kim on 6/02/15.
  */
 public class ECParser {
-    static private ECParser instance;
+    private static ECParser instance;
 
-    static public ECParser getInstance() {
+    public static ECParser getInstance() {
         if (instance == null)
             instance = new ECParser();
 
@@ -72,7 +72,7 @@ public class ECParser {
 
     private String checkString(JSONObject rowJSON,String element)
     {
-        try{
+        try {
             if(rowJSON.has(element))
                 return rowJSON.getString(element);
 

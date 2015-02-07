@@ -23,8 +23,7 @@ import de.greenrobot.event.EventBus;
  */
  public class ECGetTask extends AsyncTask<Void, Integer, String> {
 
-    public ECGetTask()
-    {
+    public ECGetTask() {
         ECGlobal.loadActionBarTitle();
 
         //Clear previous data because of no identifier in JSON
@@ -56,7 +55,7 @@ import de.greenrobot.event.EventBus;
         return ECDefine.RESULT_SUCCESS;
     }
 
-    protected void onProgressUpdate(Integer...a){
+    protected void onProgressUpdate(Integer...a) {
     }
 
     protected void onPostExecute(String result) {
@@ -66,8 +65,7 @@ import de.greenrobot.event.EventBus;
         EventBus.getDefault().post(new UpdateEvent());
     }
 
-    private void showAlertView()
-    {
+    private void showAlertView() {
         AlertDialog alertDialog = new AlertDialog.Builder(ECGlobal.getCurrentActivity()).create();
 
         alertDialog.setTitle(ECDefine.MSG_CON_FAIL);

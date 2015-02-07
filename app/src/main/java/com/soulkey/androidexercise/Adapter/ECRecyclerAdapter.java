@@ -34,7 +34,7 @@ public class ECRecyclerAdapter extends RecyclerView.Adapter<ECRecyclerAdapter.Vi
         initialImageLoader();
     }
 
-    private void initialImageLoader()    {
+    private void initialImageLoader() {
         defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
@@ -103,8 +103,7 @@ public class ECRecyclerAdapter extends RecyclerView.Adapter<ECRecyclerAdapter.Vi
         notifyItemRemoved(position);
     }
 
-    public void updateList(List<ECRow> updateItems)
-    {
+    public void updateList(List<ECRow> updateItems) {
         items =  updateItems;
         notifyDataSetChanged();
     }

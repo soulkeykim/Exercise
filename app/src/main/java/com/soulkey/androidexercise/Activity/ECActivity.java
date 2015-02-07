@@ -18,8 +18,7 @@ public class ECActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         super.onStart();
 
         ECGlobal.setCurrentActivity(this);

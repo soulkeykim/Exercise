@@ -42,8 +42,7 @@ public class ECDataHandler {
                 .execute();
     }
 
-    public void clearRows()
-    {
+    public void clearRows() {
         new Delete()
                 .from(ECRow.class)
                 .execute();

@@ -25,8 +25,7 @@ public class ECGlobal {
         return currentActivity;
     }
 
-    public static void updateActionBarTitle()
-    {
+    public static void updateActionBarTitle() {
         ActionBar ab = currentActivity.getSupportActionBar();
         try {
             if (ab != null)
@@ -37,8 +36,7 @@ public class ECGlobal {
         }
     }
 
-    public static void loadActionBarTitle()
-    {
+    public static void loadActionBarTitle() {
         setTitle(ECDefine.MSG_RECEIVING_DATA);
         updateActionBarTitle();
     }

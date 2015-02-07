@@ -23,7 +23,6 @@ public class ECRow extends Model implements Serializable {
     @Column(name = "ConError")
     public boolean conError;
 
-    public ECRow()
-    {
+    public ECRow() {
     }
 }
