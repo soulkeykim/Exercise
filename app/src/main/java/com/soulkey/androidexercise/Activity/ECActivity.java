@@ -1,7 +1,9 @@
-package com.soulkey.androidexercise.Common;
+package com.soulkey.androidexercise.Activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+
+import com.soulkey.androidexercise.Common.ECGlobal;
 
 /**
  * Created by Soulkey Kim on 6/02/15.

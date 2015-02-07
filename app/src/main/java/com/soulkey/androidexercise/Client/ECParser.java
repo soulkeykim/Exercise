@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.soulkey.androidexercise.Common.ECDefine;
 import com.soulkey.androidexercise.Common.ECGlobal;
+import com.soulkey.androidexercise.Common.ECMethod;
 import com.soulkey.androidexercise.Struct.ECRow;
 
 import org.json.JSONArray;
@@ -36,7 +37,7 @@ public class ECParser {
             }
 
         } catch (JSONException e) {
-            Log.e("###", "e = " + e);
+            Log.e(ECDefine.TAG, "e = " + e);
         }
     }
 
@@ -45,15 +46,20 @@ public class ECParser {
             try {
                 JSONObject rowJSON = rows.getJSONObject(i);
 
-
+                //if title is null, skip the value.
                 String title = checkString(rowJSON, ECDefine.TOKEN_TITLE);
-                if(title.equals("null"))
+                if(ECMethod.checkNull(title))
                     continue;
+
+                //if description is null, change the value to empty
+                String description = checkString(rowJSON,ECDefine.TOKEN_DESCRIPTION);
+                if(ECMethod.checkNull(description))
+                    description = "";
 
                 ECRow ecRow = new ECRow();
 
                 ecRow.title = title;
-                ecRow.description = checkString(rowJSON,ECDefine.TOKEN_DESCRIPTION);
+                ecRow.description = description;
                 ecRow.imageHref = checkString(rowJSON, ECDefine.TOKEN_IMAGEHREF);
 
                 ecRow.save();
@@ -71,7 +77,7 @@ public class ECParser {
                 return rowJSON.getString(element);
 
         } catch (JSONException e) {
-            Log.e("###", " e = " + e);
+            Log.e(ECDefine.TAG, " e = " + e);
         }
 
         return "";

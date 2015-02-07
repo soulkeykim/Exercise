@@ -14,6 +14,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.soulkey.androidexercise.Common.ECGlobal;
+import com.soulkey.androidexercise.Common.ECMethod;
 import com.soulkey.androidexercise.R;
 import com.soulkey.androidexercise.Struct.ECRow;
 
@@ -30,10 +31,15 @@ public class ECRecyclerAdapter extends RecyclerView.Adapter<ECRecyclerAdapter.Vi
         this.items = items;
         this.itemLayout = itemLayout;
 
+        initialImageLoader();
+    }
+
+    private void initialImageLoader()    {
         defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();
+
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(ECGlobal.getCurrentActivity()));
     }
@@ -50,7 +56,9 @@ public class ECRecyclerAdapter extends RecyclerView.Adapter<ECRecyclerAdapter.Vi
 
         holder.title.setText(item.title);
         holder.description.setText(item.description);
-        if(item.imageHref == null || item.imageHref.equals("null")) {
+
+        //if imageHref is null, do not display imageview
+        if(ECMethod.checkNull(item.imageHref)) {
             holder.image.setVisibility(View.GONE);
         }
         else {

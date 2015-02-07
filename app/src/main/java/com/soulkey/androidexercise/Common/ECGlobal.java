@@ -3,6 +3,7 @@ package com.soulkey.androidexercise.Common;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 
+import com.soulkey.androidexercise.Activity.ECActivity;
 import com.soulkey.androidexercise.Client.ECDataHandler;
 
 /**
@@ -32,7 +33,7 @@ public class ECGlobal {
                 ab.setTitle(getTitle());
         } catch (Exception e)
         {
-            Log.e("###","e = " + e.toString());
+            Log.e(ECDefine.TAG, "e = " + e.toString());
         }
     }
 
