@@ -15,3 +15,19 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-dontwarn okio.**
+
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.squareup.okhttp.** { *; }
+-keep interface com.squareup.okhttp.** { *; }
+-dontwarn com.squareup.okhttp.**
+
+-keepattributes Column
+-keepattributes Table
+-keep class com.activeandroid.** {
+     *;
+}
+
+-keep public class com.soulkey.androidexercise.Activity.ECMainActivity { *; }
