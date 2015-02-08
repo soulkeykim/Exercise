@@ -26,6 +26,8 @@ public class ECMainActivity extends ECActivity {
     private ECRecyclerAdapter recyclerAdapter;
     private RecyclerView recyclerView;
 
+    private boolean isLoading;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +80,11 @@ public class ECMainActivity extends ECActivity {
     }
 
     private void loadData() {
+        if(isLoading)
+            return;
+
+        isLoading = true;
+
         recyclerAdapter.updateList(new ArrayList<ECRow>());
         new ECGetTask().execute();
     }
@@ -94,5 +101,7 @@ public class ECMainActivity extends ECActivity {
         for(ECRow row : listRow) {
             recyclerAdapter.add(row, 0);
         }
+
+        isLoading = false;
     }
 }
