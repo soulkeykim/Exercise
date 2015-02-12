@@ -4,17 +4,27 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.soulkey.androidexercise.Client.ECClient;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.soulkey.androidexercise.Client.ECDataHandler;
 import com.soulkey.androidexercise.Client.ECParser;
 import com.soulkey.androidexercise.Common.ECDefine;
 import com.soulkey.androidexercise.Common.ECGlobal;
 import com.soulkey.androidexercise.Event.UpdateEvent;
 import com.soulkey.androidexercise.R;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+
+import org.json.JSONObject;
+
+import java.util.concurrent.TimeUnit;
 
 import de.greenrobot.event.EventBus;
 
@@ -35,19 +45,12 @@ import de.greenrobot.event.EventBus;
 
     protected String doInBackground(Void...arg0) {
         try {
-            Request request = new Request.Builder()
-                                         .url(ECDefine.getUrl())
-                                         .build();
+            RequestQueue queue = Volley.newRequestQueue(ECGlobal.getCurrentActivity(), new HurlStack());
 
-            Response response = ECClient.getInstance()
-                                        .newCall(request)
-                                        .execute();
-
-            if(response != null && response.body() != null)
-                ECParser.getInstance().Parsing(response.body().string());
+            JsonRequest jsonRequest = getJSONRequest();
+            queue.add(jsonRequest);
 
         } catch (Exception e) {
-            ECGlobal.setTitle(ECDefine.MSG_CON_FAIL);
 
             return ECDefine.RESULT_FAILED;
         }
@@ -59,9 +62,37 @@ import de.greenrobot.event.EventBus;
     }
 
     protected void onPostExecute(String result) {
-        if(result.equals(ECDefine.RESULT_FAILED))
-            showAlertView();
+    }
 
+    private JsonRequest getJSONRequest() {
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, ECDefine.getUrl(), null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        if(response != null)
+                            ECParser.getInstance().Parsing(response.toString());
+
+                        finishTask();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                ECGlobal.setTitle(ECDefine.MSG_CON_FAIL);
+                showAlertView();
+
+                finishTask();
+            }
+        });
+
+        jsonRequest.setRetryPolicy(new DefaultRetryPolicy(
+                ECDefine.LENGTH_TIME_OUT,
+                ECDefine.RETRY_COUNT,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        return jsonRequest;
+    }
+    private void finishTask() {
         EventBus.getDefault().post(new UpdateEvent());
     }
 

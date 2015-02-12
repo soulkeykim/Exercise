@@ -29,6 +29,9 @@ public class ECDefine {
     public static final String RESULT_FAILED = "FAILED";
     public static final String RESULT_SUCCESS = "SUCCESS";
 
+    public static final int LENGTH_TIME_OUT = 5000;
+    public static final int RETRY_COUNT = 0;
+
     public static final String TAG = "AndroidExcercise";
 
 }

@@ -63,9 +63,9 @@ public class ECRecyclerAdapter extends RecyclerView.Adapter<ECRecyclerAdapter.Vi
         }
         else {
             holder.image.setVisibility(View.VISIBLE);
+            holder.image.setImageResource(android.R.color.transparent);
             if(!item.conError)
             {
-                holder.image.setImageResource(android.R.color.transparent);
                 final ImageView imageView = holder.image;
                 imageLoader.displayImage(item.imageHref, holder.image, defaultOptions, new SimpleImageLoadingListener() {
                     @Override
