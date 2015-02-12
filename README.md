@@ -24,9 +24,9 @@
 >A more advanced and flexible version of ListView <br/>
 >https://developer.android.com/reference/android/support/v7/widget/RecyclerView.html
 
-  **okhttp**
->An HTTP+SPDY client <br/>
->https://github.com/square/okhttp
+  **volley**
+>A networking library <br/>
+>https://github.com/mcxiaoke/android-volley
 
 **eventbus**
 >Simplifies the communication between components <br/>

@@ -63,10 +63,9 @@ public class ECRecyclerAdapter extends RecyclerView.Adapter<ECRecyclerAdapter.Vi
         }
         else {
             holder.image.setVisibility(View.VISIBLE);
-            if(item.conError)
-                holder.image.setImageResource(R.drawable.notification_error);
-            else {
-                holder.image.setImageResource(R.drawable.ic_launcher);
+            holder.image.setImageResource(android.R.color.transparent);
+            if(!item.conError)
+            {
                 final ImageView imageView = holder.image;
                 imageLoader.displayImage(item.imageHref, holder.image, defaultOptions, new SimpleImageLoadingListener() {
                     @Override
@@ -75,7 +74,6 @@ public class ECRecyclerAdapter extends RecyclerView.Adapter<ECRecyclerAdapter.Vi
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        imageView.setImageResource(R.drawable.notification_error);
                         item.conError = true;
                         item.save();
                     }

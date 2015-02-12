@@ -1,11 +1,17 @@
 package com.soulkey.androidexercise.Activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.soulkey.androidexercise.Adapter.ECRecyclerAdapter;
 import com.soulkey.androidexercise.Client.ECDataHandler;
@@ -26,6 +32,7 @@ public class ECMainActivity extends ECActivity {
     private ECRecyclerAdapter recyclerAdapter;
     private RecyclerView recyclerView;
 
+    private ImageView refreshView;
     private boolean isLoading;
 
     @Override
@@ -34,6 +41,7 @@ public class ECMainActivity extends ECActivity {
         setContentView(R.layout.activity_main);
 
         setRecyclerView();
+        setRefreshView();
         loadData();
     }
 
@@ -53,20 +61,8 @@ public class ECMainActivity extends ECActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        setRefreshMenu(menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            loadData();
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void setRecyclerView() {
@@ -79,11 +75,28 @@ public class ECMainActivity extends ECActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
+    private void setRefreshMenu(Menu menu) {
+        MenuItem refreshItem = menu.findItem(R.id.action_refresh);
+        refreshItem.setActionView(refreshView);
+    }
+
+    private void setRefreshView() {
+        LayoutInflater inflater = (LayoutInflater) ECGlobal.getCurrentActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        refreshView = (ImageView) inflater.inflate(R.layout.action_refresh, null);
+
+        refreshView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
+    }
+
     private void loadData() {
         if(isLoading)
             return;
 
-        isLoading = true;
+        startLoading();
 
         recyclerAdapter.updateList(new ArrayList<ECRow>());
         new ECGetTask().execute();
@@ -102,6 +115,24 @@ public class ECMainActivity extends ECActivity {
             recyclerAdapter.add(row, 0);
         }
 
+        stopLoading();
+    }
+
+    private void startLoading()
+    {
+        isLoading = true;
+
+        Animation rotation = AnimationUtils.loadAnimation(ECGlobal.getCurrentActivity(), R.anim.rotate);
+        if(refreshView != null)
+            refreshView.startAnimation(rotation);
+    }
+
+    private void stopLoading()
+    {
+        if(refreshView != null)
+            refreshView.clearAnimation();
+
         isLoading = false;
     }
+
 }
